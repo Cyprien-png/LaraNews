@@ -1,0 +1,1 @@
+php artisan make:model -crm Article
