@@ -36,7 +36,16 @@ class ArticleController extends Controller
      */
     public function store(ArticleRequest $request)
     {
-        Article::create($request->all())->tags()->attach($request->tags);
+        $tags = $request->tags;
+
+        if (!empty($request->newTags)) {
+
+            foreach ($request->newTags as $newTag) {
+                array_push($tags, Tag::create(['name' => $newTag])->id);
+            }
+        }
+
+        Article::create($request->all())->tags()->attach($tags);
         return redirect()->route('articles.index');
     }
 
